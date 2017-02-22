@@ -24,13 +24,36 @@ def home():
 def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
+    
+    
+
+    
+    
+@app.route('/filelisting/',methods =['POST','GET'])
+def filelisting():
+    if not session.get('logged_in'):
+        abort(401)
+    return render_template('uploads.html', docs=get_list())
+   
+  
+  
+    
+def get_list():
+    docs = []
+    for subdir, dirs, files in os.walk(app.config['UPLOAD_FOLDER']):
+        for file in files:
+            if not file.startswith('.'):
+                docs.append(file)
+    return docs
+      
+
 
 @app.route('/add-file', methods=['POST', 'GET'])
 def add_file():
     if not session.get('logged_in'):
         abort(401)
 
-    file_folder = app.config['UPLOAD_FOLDER'] #points to upload folder config
+    file_folder = './app/static/uploads'
 
     if request.method == 'POST':
         file = request.files['file']
@@ -41,6 +64,9 @@ def add_file():
         return redirect(url_for('home'))
 
     return render_template('add_file.html')
+    
+    
+    
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -91,4 +117,4 @@ def page_not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(debug=True,host="0.0.0.0",port="8080")
+app.run(debug=True,host="0.0.0.0",port="8080")

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h1 class="page-header">Saved Files</h1>
+
+
+<p><strong>JPG/JPEG FILES</strong></p>
+
+{% for files in docs %}
+{% if (files.lower().endswith(('.jpg'))) or (files.lower().endswith(('.jpeg'))) %}
+    <div class="col-md-4">
+      <div class="thumbnail" >
+        <img src="{{ url_for('static', filename='uploads/') }}{{ files }}" alt="{{ files }}"
+             style="height: 200px; width: 100%;">
+          <div class="caption">
+            <p>{{ files }}</p>
+          </div>      
+      </div>
+    </div>    
+{% endif %}
+{% endfor %}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<p><strong>Et Al Files...</strong></p>
+<ul>
+  {% for files in docs %}
+  {% if not (files.lower().endswith(('.jpg'))) %}
+  {% if not (files.lower().endswith(('.jpeg'))) %}
+    <li>{{ files }}</li>
+  {% endif %}
+  {% endif %}
+  {% endfor %}
+</ul>
+
+
+
+{% endblock %}
